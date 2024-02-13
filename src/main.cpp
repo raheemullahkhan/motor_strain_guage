@@ -1,30 +1,35 @@
 
+
+
+
 #include "motor_control.h"
 #include <Arduino.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <strain_guage.h>
-#define STACK_SIZE 2048
+#define STACK_SIZE 9048
 #define DELAY_MS 1000
 
 void task1(void *pulse_duration) {
+  while (true) {
+    Serial.println("Task 2 is running");
+    vTaskDelay(pdMS_TO_TICKS(DELAY_MS));
+  }
 
-        int duration=5;
+}
+
+void task2(void *parameter) {
+
+          int duration=10;
     while (1) {
         generate_steps(64, duration);
         changeDirection();
         
         generate_steps(64, duration);
         changeDirection(); 
-        
+        Serial.println("task1");
     }
-}
-
-void task2(void *parameter) {
-  while (true) {
-    Serial.println("Task 2 is running");
-    vTaskDelay(pdMS_TO_TICKS(DELAY_MS));
-  }
+    vTaskDelay(40);
 }
 
 void setup() {
@@ -33,12 +38,22 @@ void setup() {
     enable_motor();
     set_up_direction();
     initialize_strian_guage();
+      Serial.begin(115200);
+  
 
   
-  xTaskCreatePinnedToCore(task1, "Task1", STACK_SIZE, NULL, 1, NULL, 1);  // Run task1 on core 1
-  xTaskCreate(task2, "Task2", STACK_SIZE, NULL, 1, NULL);
+//  xTaskCreatePinnedToCore(task1, "Task1", STACK_SIZE, NULL, 1, NULL, 1);  // Run task1 on core 1
+  //xTaskCreatePinnedToCore(task2, "Task2", STACK_SIZE, NULL, 1, NULL,0);
 }
 
 void loop() {
-  // Nothing to do here, tasks run independently
+            int duration=20;
+    while (1) {
+        generate_steps(64, duration);
+        changeDirection();
+        
+        generate_steps(64, duration);
+        changeDirection(); 
+        Serial.println("task1");
+    }
 }

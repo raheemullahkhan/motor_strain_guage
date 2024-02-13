@@ -10,7 +10,8 @@
 
 #define DIRECTION_PIN 0
 #define ENABLE_PIN 2
-#define PULSE_PIN 15
+#define Real_pulse_pin 15
+#define imagnary_pulse_pin 33 // this pin doesnot exist in reality 
 
 #define pulse_per_rev 3200
 #define pulse_in_one_step (pulse_per_rev)/64  // min step is rev/64
